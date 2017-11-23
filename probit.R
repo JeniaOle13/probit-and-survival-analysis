@@ -1,5 +1,7 @@
+library(drc)
+library(ggplot2)
+
 probit.analysis <- function(x){
-  library(drc)
   fitl.glm <- glm(cbind(x[,3], x[,2]-x[,3]) ~ log(x[,1]),
                   family=binomial('probit'), data=x[x$dose != 0, ])
   e <- summary(fitl.glm)
@@ -13,7 +15,7 @@ probit.analysis <- function(x){
   b <- x[,3]/x[,2]
   d <- x[,1]
   c <- data.frame(a,b,d)
-  library(ggplot2)
+  
   plot <- ggplot(c, aes(x = log(d), y = log(b)))+
     geom_point(size = 3)+
     geom_smooth(method = "lm", aes(x = log(d), y = log(a)))+
